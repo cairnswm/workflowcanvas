@@ -1,4 +1,4 @@
-name: Publish AI CV Builder to Website
+name: Publish Project to Website
 
 on:
   push:

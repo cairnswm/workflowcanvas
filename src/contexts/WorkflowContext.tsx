@@ -1,5 +1,6 @@
+import {demoWorkflow} from './demoworkflow';
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import { Connection, Edge, Node, addEdge, applyNodeChanges, applyEdgeChanges } from 'reactflow';
+import { Connection, Edge, Node, addEdge, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange } from 'reactflow';
 import { WorkflowData } from '../types';
 
 interface WorkflowState {
@@ -12,21 +13,21 @@ type WorkflowAction =
   | { type: 'SET_NODES'; payload: Node[] }
   | { type: 'SET_EDGES'; payload: Edge[] }
   | { type: 'UPDATE_NODE_LABEL'; payload: { nodeId: string; label: string } }
-  | { type: 'UPDATE_NODE_DATA'; payload: { nodeId: string; data: any } }
+  | { type: 'UPDATE_NODE_DATA'; payload: { nodeId: string; data: Record<string, unknown> } }
   | { type: 'UPDATE_EDGE_LABEL'; payload: { edgeId: string; label: string } }
   | { type: 'SET_WORKFLOW'; payload: WorkflowData & { filename?: string } }
   | { type: 'SET_FILENAME'; payload: string }
-  | { type: 'APPLY_NODE_CHANGES'; payload: any[] }
-  | { type: 'APPLY_EDGE_CHANGES'; payload: any[] }
+  | { type: 'APPLY_NODE_CHANGES'; payload: NodeChange[] }
+  | { type: 'APPLY_EDGE_CHANGES'; payload: EdgeChange[] }
   | { type: 'ADD_NODE'; payload: Node }
   | { type: 'ADD_EDGE'; payload: Connection }
   | { type: 'DELETE_NODE'; payload: string }
   | { type: 'DELETE_EDGE'; payload: string };
 
 const initialState: WorkflowState = {
-  nodes: [],
-  edges: [],
-  filename: 'Untitled Workflow'
+  nodes: demoWorkflow.nodes || [],
+  edges: demoWorkflow.edges || [],
+  filename: demoWorkflow.filename || 'Untitled Workflow'
 };
 
 function workflowReducer(state: WorkflowState, action: WorkflowAction): WorkflowState {
@@ -78,7 +79,7 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
       return { ...state, edges: applyEdgeChanges(action.payload, state.edges) };
     case 'ADD_NODE':
       return { ...state, nodes: [...state.nodes, action.payload] };
-    case 'ADD_EDGE':
+    case 'ADD_EDGE': {
       const newEdge = {
         ...action.payload,
         id: `edge-${state.edges.length + 1}`,
@@ -86,6 +87,7 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
         type: 'custom'
       };
       return { ...state, edges: addEdge(newEdge, state.edges) };
+    }
     case 'DELETE_NODE':
       return {
         ...state,
