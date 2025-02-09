@@ -1,7 +1,7 @@
 import React from "react";
-import { Activity, Database, GitFork, Square } from "lucide-react";
+import { Activity, Database, GitFork, Square, StickyNote } from "lucide-react";
 
-type NodeType = "action" | "state" | "decision" | "block" | "header" | "image";
+type NodeType = "action" | "state" | "decision" | "block" | "header" | "image" | "sticky";
 
 interface NodeIconProps {
   type: NodeType;
@@ -17,6 +17,8 @@ const NodeIcon = ({ type }: NodeIconProps) => {
       return <GitFork size={14} className="text-amber-500" />;
     case "block":
       return <Square size={14} className="text-gray-500" />;
+    case "sticky":
+      return <StickyNote size={14} className="text-yellow-500" />;
     default:
       return null;
   }
@@ -34,6 +36,8 @@ export const getNodeStyle = (type: NodeType) => {
       return "bg-gray-200 border-gray-400";
     case "image":
       return "bg-sky-50 border-sky-400";
+    case "sticky":
+      return "bg-yellow-50 border-yellow-400";
     default:
       return "bg-white border-gray-200";
   }

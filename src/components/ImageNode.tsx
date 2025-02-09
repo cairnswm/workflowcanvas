@@ -109,20 +109,11 @@ const ImageNode = ({ id, data, selected }: ImageNodeProps) => {
         <NodeControls
           onChatClick={openChat}
           onDeleteClick={handleDeleteClick}
+          onImageClick={() => fileInputRef.current?.click()}
           messages={data.messages}
         />
         <NodeHandles type={data.type} />
         
-        <div className="absolute top-2 right-14">
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="p-1 hover:bg-sky-100 rounded-full bg-white text-sky-500 hover:text-sky-700 shadow-sm border border-sky-200"
-            title="Select Image"
-          >
-            <LucideImage size={12} />
-          </button>
-        </div>
-
         <input
           ref={fileInputRef}
           type="file"

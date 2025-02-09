@@ -5,7 +5,7 @@ import NodeHandles from "./node-parts/NodeHandles";
 import NodeLabel from "./node-parts/NodeLabel";
 import NodeIcon, { getNodeStyle } from "./node-parts/NodeIcon";
 
-type NodeType = "action" | "state" | "decision" | "block" | "header" | "image";
+type NodeType = "action" | "state" | "decision" | "block" | "header" | "image" | "sticky";
 
 interface ChatMessage {
   id: string;
