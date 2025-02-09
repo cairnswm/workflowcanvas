@@ -1,6 +1,7 @@
 import {demoWorkflow} from './demoworkflow';
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-import { Connection, Edge, Node, addEdge, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange } from 'reactflow';
+import { Edge, Node, addEdge, applyNodeChanges, applyEdgeChanges, NodeChange, EdgeChange } from 'reactflow';
+import { Connection } from '../types';
 import { WorkflowData } from '../types';
 
 interface WorkflowState {
@@ -84,7 +85,7 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
         ...action.payload,
         id: `edge-${state.edges.length + 1}`,
         label: '',
-        type: 'custom'
+        type: action.payload.type || 'custom'
       };
       return { ...state, edges: addEdge(newEdge, state.edges) };
     }

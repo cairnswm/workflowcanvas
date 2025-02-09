@@ -8,10 +8,11 @@ import ReactFlow, {
   useReactFlow,
   useViewport,
   getRectOfNodes,
-  getTransformForBounds,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { Download, Upload, FileEdit, Activity, Database, GitFork, Square, Type, FilePlus2, ImageDown, Image } from 'lucide-react';
+import { Download, Upload, FileEdit, Activity, Database, GitFork, Square, Type, FilePlus2, ImageDown, Image, MessageCircle } from 'lucide-react';
+import ChatNode from './components/chatnode';
+import ChatEdge from './components/chatedge';
 import { useWorkflow } from './contexts/WorkflowContext';
 import WorkflowNode from './components/WorkflowNode';
 import CustomEdge from './components/CustomEdge';
@@ -25,10 +26,12 @@ const nodeTypes: NodeTypes = {
   workflowNode: WorkflowNode,
   headerNode: HeaderNode,
   imageNode: ImageNode,
+  chatnode: ChatNode,
 };
 
 const edgeTypes: EdgeTypes = {
   custom: CustomEdge,
+  chatEdge: ChatEdge,
 };
 
 const MIN_IMAGE_WIDTH = 3000;
@@ -39,9 +42,9 @@ function App() {
   const { state, dispatch } = useWorkflow();
   const { nodes, edges, filename } = state;
   const { screenToFlowPosition, getNodes } = useReactFlow();
-  const { x, y, zoom } = useViewport();
+  useViewport();
 
-  const addNewNode = useCallback((type: 'action' | 'state' | 'decision' | 'block' | 'header' | 'image') => {
+  const addNewNode = useCallback((type: 'action' | 'state' | 'decision' | 'block' | 'header' | 'image' | 'chat') => {
     const viewportCenter = screenToFlowPosition({
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
@@ -49,13 +52,15 @@ function App() {
 
     const newNode = {
       id: `node-${nodes.length + 1}`,
-      type: type === 'header' ? 'headerNode' : type === 'image' ? 'imageNode' : 'workflowNode',
+      type: type === 'header' ? 'headerNode' : type === 'image' ? 'imageNode' : type === 'chat' ? 'chatnode' : 'workflowNode',
       position: viewportCenter,
       data: { 
         label: type === 'header' 
           ? 'Header Text'
           : type === 'image'
           ? 'Image'
+          : type === 'chat'
+          ? `Chat Node ${nodes.length + 1}`
           : `${type.charAt(0).toUpperCase() + type.slice(1)} ${nodes.length + 1}`,
         type 
       },
@@ -227,6 +232,13 @@ function App() {
               title="Add Image"
             >
               <Image size={20} />
+            </button>
+            <button
+              onClick={() => addNewNode('chat')}
+              className="p-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+              title="Add Chat Node"
+            >
+              <MessageCircle size={20} />
             </button>
           </div>
           <div className="flex gap-2 ml-4 border-l pl-4">
