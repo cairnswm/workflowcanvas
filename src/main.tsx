@@ -4,13 +4,16 @@ import { ReactFlowProvider } from "reactflow";
 import App from "./App.tsx";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
+import { TourProvider } from "./contexts/TourContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReactFlowProvider>
-        <BrowserRouter basename="/workflowcanvas">
+      <BrowserRouter basename="/workflowcanvas">
+        <TourProvider>
           <App />
-        </BrowserRouter>
+        </TourProvider>
+      </BrowserRouter>
     </ReactFlowProvider>
   </StrictMode>
 );

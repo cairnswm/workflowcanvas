@@ -1,5 +1,4 @@
 import React, { useCallback, useState, MouseEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import ReactFlow, {
   Background,
   Controls,
@@ -11,21 +10,6 @@ import ReactFlow, {
   getRectOfNodes,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import {
-  Download,
-  Upload,
-  FileEdit,
-  Activity,
-  Database,
-  GitFork,
-  Square,
-  Type,
-  FilePlus2,
-  ImageDown,
-  Image,
-  MessageCircle,
-  StickyNote as StickyNoteIcon,
-} from "lucide-react";
 import ChatNode from "./chatnode";
 import ChatEdge from "./chatedge";
 import { useWorkflow } from "../contexts/WorkflowContext";
@@ -38,6 +22,8 @@ import StickyNote from "./StickyNote";
 import ContextMenu from "./contextmenu";
 import { toPng } from "html-to-image";
 import { exportWorkflow } from "../utils";
+import WorkflowHeader from "./header/workflowheader";
+import WorkflowToolbar from "./header/workflowtoolbar";
 
 const nodeTypes: NodeTypes = {
   workflowNode: WorkflowNode,
@@ -56,64 +42,50 @@ const MIN_IMAGE_WIDTH = 3000;
 const MIN_IMAGE_HEIGHT = 2000;
 const PADDING = 100;
 
-const Workflow = () => {
+const Workflow: React.FC = () => {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
-  const navigate = useNavigate();
   const { state, dispatch } = useWorkflow();
   const { nodes, edges, filename } = state;
   const { screenToFlowPosition, getNodes } = useReactFlow();
   useViewport();
 
-  const addNewNode = useCallback(
-    (
-      type:
-        | "action"
-        | "state"
-        | "decision"
-        | "block"
-        | "header"
-        | "image"
-        | "chat"
-        | "sticky"
-    ) => {
-      const viewportCenter = screenToFlowPosition({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-      });
+  const addNewNode = useCallback((
+    type: "action" | "state" | "decision" | "block" | "header" | "image" | "chat" | "sticky"
+  ) => {
+    const viewportCenter = screenToFlowPosition({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
 
-      const newNode = {
-        id: `node-${nodes.length + 1}`,
-        type:
+    const newNode = {
+      id: `node-${nodes.length + 1}`,
+      type:
+        type === "header"
+          ? "headerNode"
+          : type === "image"
+          ? "imageNode"
+          : type === "chat"
+          ? "chatnode"
+          : type === "sticky"
+          ? "stickyNote"
+          : "workflowNode",
+      position: viewportCenter,
+      data: {
+        label:
           type === "header"
-            ? "headerNode"
+            ? "Header Text"
             : type === "image"
-            ? "imageNode"
+            ? "Image"
             : type === "chat"
-            ? "chatnode"
+            ? `Chat Node ${nodes.length + 1}`
             : type === "sticky"
-            ? "stickyNote"
-            : "workflowNode",
-        position: viewportCenter,
-        data: {
-          label:
-            type === "header"
-              ? "Header Text"
-              : type === "image"
-              ? "Image"
-              : type === "chat"
-              ? `Chat Node ${nodes.length + 1}`
-              : type === "sticky"
-              ? `Sticky Note ${nodes.length + 1}`
-              : `${type.charAt(0).toUpperCase() + type.slice(1)} ${
-                  nodes.length + 1
-                }`,
-          type,
-        },
-      };
-      dispatch({ type: "ADD_NODE", payload: newNode });
-    },
-    [nodes.length, dispatch, screenToFlowPosition]
-  );
+            ? `Sticky Note ${nodes.length + 1}`
+            : `${type.charAt(0).toUpperCase() + type.slice(1)} ${nodes.length + 1}`,
+        type,
+      },
+    };
+    dispatch({ type: "ADD_NODE", payload: newNode });
+  }, [nodes.length, dispatch, screenToFlowPosition]);
 
   const handleExport = () => {
     exportWorkflow(nodes, edges, filename);
@@ -143,9 +115,7 @@ const Workflow = () => {
   };
 
   const handleNewWorkflow = () => {
-    if (
-      window.confirm("Are you sure you want to clear the current workflow?")
-    ) {
+    if (window.confirm("Are you sure you want to clear the current workflow?")) {
       dispatch({ type: "SET_WORKFLOW", payload: { nodes: [], edges: [] } });
     }
   };
@@ -232,12 +202,11 @@ const Workflow = () => {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         defaultEdgeOptions={{ type: "custom" }}
-        
         onPaneClick={(event: MouseEvent) => {
           event.preventDefault();
           setContextMenu({ x: event.clientX, y: event.clientY });
         }}
-        onPaneContextMenu = {(event: MouseEvent) => {
+        onPaneContextMenu={(event: MouseEvent) => {
           event.stopPropagation();
           event.preventDefault();
           setContextMenu({ x: event.clientX, y: event.clientY });
@@ -247,137 +216,21 @@ const Workflow = () => {
         <Background />
         <Controls />
         <Minimap />
-        <Panel position="top-left" className="flex items-center gap-2">
-          <button
-            onClick={() => navigate("/")}
-            className="p-2 bg-white text-gray-700 rounded hover:bg-gray-100 border border-gray-200"
-            title="Go to Home"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </button>
-          <span className="text-lg font-semibold text-gray-700">
-            {filename}
-          </span>
-          <button
-            onClick={handleFilenameEdit}
-            className="p-1 hover:bg-gray-100 rounded"
-            title="Edit filename"
-          >
-            <FileEdit size={16} />
-          </button>
+        <Panel position="top-left">
+          <WorkflowHeader filename={filename} onFilenameEdit={handleFilenameEdit} />
         </Panel>
-        <Panel position="top-right" className="flex gap-2">
-          <div className="flex gap-2">
-            <button
-              onClick={() => addNewNode("header")}
-              className="p-2 bg-violet-500 text-white rounded hover:bg-violet-600"
-              title="Add Header"
-            >
-              <Type size={20} />
-            </button>
-            <button
-              onClick={() => addNewNode("action")}
-              className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              title="Add Action Step"
-            >
-              <Activity size={20} />
-            </button>
-            <button
-              onClick={() => addNewNode("state")}
-              className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
-              title="Add State Step"
-            >
-              <Database size={20} />
-            </button>
-            <button
-              onClick={() => addNewNode("decision")}
-              className="p-2 bg-amber-500 text-white rounded hover:bg-amber-600"
-              title="Add Decision Step"
-            >
-              <GitFork size={20} />
-            </button>
-            <button
-              onClick={() => addNewNode("block")}
-              className="p-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-              title="Add Block"
-            >
-              <Square size={20} />
-            </button>
-            <button
-              onClick={() => addNewNode("image")}
-              className="p-2 bg-sky-500 text-white rounded hover:bg-sky-600"
-              title="Add Image"
-            >
-              <Image size={20} />
-            </button>
-
-            <button
-              onClick={() => addNewNode("sticky")}
-              className="p-2 bg-sky-500 text-white rounded hover:bg-sky-600"
-              title="Add Image"
-            >
-              <StickyNoteIcon size={20} />
-            </button>
-            <button
-              onClick={() => addNewNode("chat")}
-              className="p-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-              title="Add Chat Node"
-            >
-              <MessageCircle size={20} />
-            </button>
-          </div>
-          <div className="flex gap-2 ml-4 border-l pl-4">
-            <button
-              onClick={handleNewWorkflow}
-              className="p-2 bg-white text-gray-700 rounded hover:bg-gray-100 border border-gray-200"
-              title="New Workflow"
-            >
-              <FilePlus2 size={20} />
-            </button>
-            <button
-              onClick={handleExport}
-              className="p-2 bg-white text-gray-700 rounded hover:bg-gray-100 border border-gray-200"
-              title="Export JSON"
-            >
-              <Download size={20} />
-            </button>
-            <label
-              className="p-2 bg-white text-gray-700 rounded hover:bg-gray-100 border border-gray-200 cursor-pointer"
-              title="Import JSON"
-            >
-              <Upload size={20} />
-              <input
-                type="file"
-                accept=".json"
-                onChange={handleImport}
-                className="hidden"
-              />
-            </label>
-            <button
-              onClick={handleExportImage}
-              className="p-2 bg-white text-gray-700 rounded hover:bg-gray-100 border border-gray-200"
-              title="Export as PNG"
-            >
-              <ImageDown size={20} />
-            </button>
-          </div>
+        <Panel position="top-right">
+          <WorkflowToolbar
+            onAddNode={addNewNode}
+            onNewWorkflow={handleNewWorkflow}
+            onExport={handleExport}
+            onImport={handleImport}
+            onExportImage={handleExportImage}
+          />
         </Panel>
         {contextMenu && (
           <>
-            <div 
+            <div
               className="fixed inset-0 z-40"
               onClick={() => setContextMenu(null)}
             />

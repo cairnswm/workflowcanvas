@@ -12,6 +12,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/workflow" element={<Workflow />} />
           <Route path="*" element={<Navigate to="/" replace />} />
+
         </Routes>
       </WorkflowProvider>
     </div>
