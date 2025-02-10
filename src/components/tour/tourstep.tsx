@@ -1,5 +1,5 @@
 import { ReactNode, useContext, MouseEvent } from "react";
-import { TourContext } from "../contexts/TourContext";
+import { TourContext } from "../../contexts/TourContext";
 import Tooltip from "./tooltip";
 
 interface TourStepProps {

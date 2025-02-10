@@ -13,7 +13,7 @@ import {
   Download,
   Upload,
 } from 'lucide-react';
-import TourStep from '../tourstep';
+import TourStep from '../tour/tourstep';
 
 interface WorkflowToolbarProps {
   onAddNode: (type: 'action' | 'state' | 'decision' | 'block' | 'header' | 'image' | 'chat' | 'sticky') => void;
