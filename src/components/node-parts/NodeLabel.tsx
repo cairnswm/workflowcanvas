@@ -12,6 +12,10 @@ const NodeLabel = ({ label, onLabelChange, className }: NodeLabelProps) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
+    console.log("Label Updated", labelText);
+  }, [labelText]);
+
+  useEffect(() => {
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
       const textarea = inputRef.current;
@@ -31,12 +35,14 @@ const NodeLabel = ({ label, onLabelChange, className }: NodeLabelProps) => {
       e.preventDefault();
     }
     if (e.key === "Escape") {
+      console.log("************** handleKeyDown Escape", label);
       setLabelText(label);
       setIsEditing(false);
     }
   };
 
   const handleBlur = () => {
+    console.log("************** handleBlur", labelText);
     onLabelChange(labelText);
     setIsEditing(false);
   };

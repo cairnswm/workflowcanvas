@@ -8,7 +8,7 @@ interface CustomMinimapNodeProps {
   color: string;
   strokeColor: string;
   strokeWidth: number;
-  data: {
+  data?: {
     type?: string;
     label?: string;
   };

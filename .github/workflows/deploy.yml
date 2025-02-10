@@ -14,7 +14,10 @@ jobs:
       
       - name: Install Dependencies
         run: npm ci -force
-
+        
+      - name: Run Tests
+        run: npm test
+        
       - name: Build Site
         run: npm run build
 
@@ -26,4 +29,3 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
           server-dir: ${{ vars.SERVER_DIR }}
-

@@ -26,9 +26,9 @@ type WorkflowAction =
   | { type: 'DELETE_EDGE'; payload: string };
 
 const initialState: WorkflowState = {
-  nodes: demoWorkflow.nodes || [],
-  edges: demoWorkflow.edges || [],
-  filename: demoWorkflow.filename || 'Untitled Workflow'
+  nodes: demoWorkflow?.nodes || [],
+  edges: demoWorkflow?.edges || [],
+  filename: demoWorkflow?.filename || 'Untitled Workflow'
 };
 
 function workflowReducer(state: WorkflowState, action: WorkflowAction): WorkflowState {
