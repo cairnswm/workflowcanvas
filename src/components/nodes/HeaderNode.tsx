@@ -1,5 +1,5 @@
 import React, { memo, useState, useRef, useEffect } from 'react';
-import { useWorkflow } from '../contexts/WorkflowContext';
+import { useWorkflow } from '../../contexts/WorkflowContext';
 import { Trash2 } from 'lucide-react';
 
 interface NodeData {

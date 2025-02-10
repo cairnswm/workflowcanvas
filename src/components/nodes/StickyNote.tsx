@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { useNodeCommon } from "../hooks/useNodeCommon";
-import NodeControls from "./node-parts/NodeControls";
-import NodeHandles from "./node-parts/NodeHandles";
-import NodeLabel from "./node-parts/NodeLabel";
-
-interface ChatMessage {
-  id: string;
-  text: string;
-  timestamp: number;
-}
+import { useNodeCommon } from "../../hooks/useNodeCommon";
+import NodeControls from "../node-parts/NodeControls";
+import NodeHandles from "../node-parts/NodeHandles";
+import NodeLabel from "../node-parts/NodeLabel";
+import { ChatMessage } from "../../hooks/useNodeCommon";
 
 interface StickyNoteData {
   label: string;

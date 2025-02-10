@@ -10,20 +10,20 @@ import ReactFlow, {
   getRectOfNodes,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import ChatNode from "./chatnode";
-import ChatEdge from "./chatedge";
+import ChatNode from "../components/nodes/chatnode";
+import ChatEdge from "../components/nodes/chatedge";
 import { useWorkflow } from "../contexts/WorkflowContext";
-import WorkflowNode from "./WorkflowNode";
-import CustomEdge from "./CustomEdge";
-import Minimap from "./Minimap";
-import HeaderNode from "./HeaderNode";
-import ImageNode from "./ImageNode";
-import StickyNote from "./StickyNote";
-import ContextMenu from "./contextmenu";
+import WorkflowNode from "../components/nodes/WorkflowNode";
+import CustomEdge from "../components/nodes/CustomEdge";
+import Minimap from "../components/minimap/Minimap";
+import HeaderNode from "../components/nodes/HeaderNode";
+import ImageNode from "../components/nodes/ImageNode";
+import StickyNote from "../components/nodes/StickyNote";
+import ContextMenu from "../components/workflow/contextmenu";
 import { toPng } from "html-to-image";
 import { exportWorkflow } from "../utils";
-import WorkflowHeader from "./header/workflowheader";
-import WorkflowToolbar from "./header/workflowtoolbar";
+import WorkflowHeader from "../components/header/workflowheader";
+import WorkflowToolbar from "../components/header/workflowtoolbar";
 
 const nodeTypes: NodeTypes = {
   workflowNode: WorkflowNode,

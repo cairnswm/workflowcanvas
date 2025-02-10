@@ -1,6 +1,7 @@
 import { ReactNode, useContext, MouseEvent } from "react";
 import { TourContext } from "../../contexts/TourContext";
 import Tooltip from "./tooltip";
+import "./tourstep.css";
 
 interface TourStepProps {
   step: number;
@@ -47,74 +48,47 @@ const TourStep = ({ step, children }: TourStepProps) => {
   }
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="tourstep-container">
       {children}
       <div 
-        style={{ position: "relative" }}
+        className="tourstep-tooltip-wrapper"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
         }}
       >
         <Tooltip>
-          <div onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}>
+          <div 
+            className="tourstep-content"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
             {currentTourStep.description}
-            <div
-              style={{
-                paddingTop: "10px",
-                left: "50%",
-                display: "flex",
-                gap: "8px",
-                justifyContent: "center",
-                zIndex: 1000,
-              }}
-            >
+            <div className="tourstep-buttons">
               {step > 1 && (
                 <button
                   onClick={handlePrev}
-                  style={{
-                    padding: "4px 8px",
-                    fontSize: "0.9em",
-                    border: "1px solid #ddd",
-                    borderRadius: "4px",
-                    backgroundColor: "#f5f5f5",
-                    cursor: "pointer",
-                  }}
+                  className="tourstep-button"
                 >
                   Previous
                 </button>
               )}
               <button
                 onClick={handleNext}
-                style={{
-                  padding: "4px 8px",
-                  fontSize: "0.9em",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  backgroundColor: "#f5f5f5",
-                  cursor: "pointer",
-                }}
+                className="tourstep-button"
               >
                 Next
               </button>
               <button
                 onClick={handleSkip}
-                style={{
-                  padding: "4px 8px",
-                  fontSize: "0.9em",
-                  border: "1px solid #ddd",
-                  borderRadius: "4px",
-                  backgroundColor: "#f5f5f5",
-                  cursor: "pointer",
-                }}
+                className="tourstep-button"
               >
                 Skip
               </button>
             </div>
-            <div style={{ marginTop: "8px", fontSize: "0.9em", color: "#666" }}>
+            <div className="tourstep-progress">
               Step {step} of {tourSteps.length}
             </div>
           </div>

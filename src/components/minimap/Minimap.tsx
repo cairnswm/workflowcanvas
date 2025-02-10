@@ -1,7 +1,7 @@
 import React, { useState, memo } from "react";
 import { MiniMap, useReactFlow } from "reactflow";
 import { Minimize2, Maximize2 } from "lucide-react";
-import CustomMinimapNode from "./CustomMinimapNode";
+import CustomMinimapNode from "../nodes/CustomMinimapNode";
 
 const minimapStyle = {
   backgroundColor: "rgb(249, 250, 251)",

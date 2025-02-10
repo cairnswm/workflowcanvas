@@ -1,0 +1,35 @@
+.tourstep-container {
+  position: relative;
+}
+
+.tourstep-tooltip-wrapper {
+  position: relative;
+}
+
+.tourstep-content {
+  position: relative;
+}
+
+.tourstep-buttons {
+  padding-top: 10px;
+  left: 50%;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.tourstep-button {
+  padding: 4px 8px;
+  font-size: 0.9em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.tourstep-progress {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #666;
+}

@@ -1,16 +1,11 @@
 import React, { memo, useRef, useState, useCallback } from "react";
 import { Image as LucideImage } from "lucide-react";
 import { NodeResizer, OnResize } from "reactflow";
-import { useNodeCommon } from "../hooks/useNodeCommon";
-import NodeControls from "./node-parts/NodeControls";
-import NodeHandles from "./node-parts/NodeHandles";
-import { getNodeStyle } from "./node-parts/NodeIcon";
-
-interface ChatMessage {
-  id: string;
-  text: string;
-  timestamp: number;
-}
+import { useNodeCommon } from "../../hooks/useNodeCommon";
+import NodeControls from "../node-parts/NodeControls";
+import NodeHandles from "../node-parts/NodeHandles";
+import { getNodeStyle } from "../node-parts/NodeIcon";
+import { ChatMessage } from "../../hooks/useNodeCommon";
 
 interface ImageNodeData {
   label: string;

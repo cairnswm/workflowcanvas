@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { NodeResizer, Handle, Position, OnResize } from "reactflow";
-import { useWorkflow } from "../contexts/WorkflowContext";
-import { useNodeCommon } from "../hooks/useNodeCommon";
-import ChatInput from "./node-parts/ChatInput";
-import ChatMessages from "./node-parts/ChatMessages";
-import { Connection } from "../types";
+import { useWorkflow } from "../../contexts/WorkflowContext";
+import { useNodeCommon } from "../../hooks/useNodeCommon";
+import ChatInput from "../node-parts/ChatInput";
+import ChatMessages from "../node-parts/ChatMessages";
+import { Connection } from "../../types";
 
 interface ChatNodeData {
   label: string;

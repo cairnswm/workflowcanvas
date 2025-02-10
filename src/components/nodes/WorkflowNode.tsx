@@ -1,17 +1,12 @@
 import React, { memo } from "react";
-import { useNodeCommon } from "../hooks/useNodeCommon";
-import NodeControls from "./node-parts/NodeControls";
-import NodeHandles from "./node-parts/NodeHandles";
-import NodeLabel from "./node-parts/NodeLabel";
-import NodeIcon, { getNodeStyle } from "./node-parts/NodeIcon";
+import { useNodeCommon } from "../../hooks/useNodeCommon";
+import NodeControls from "../node-parts/NodeControls";
+import NodeHandles from "../node-parts/NodeHandles";
+import NodeLabel from "../node-parts/NodeLabel";
+import NodeIcon, { getNodeStyle } from "../node-parts/NodeIcon";
+import { ChatMessage } from "../../hooks/useNodeCommon";
 
 type NodeType = "action" | "state" | "decision" | "block" | "header" | "image" | "sticky";
-
-interface ChatMessage {
-  id: string;
-  text: string;
-  timestamp: number;
-}
 
 interface NodeData {
   label: string;

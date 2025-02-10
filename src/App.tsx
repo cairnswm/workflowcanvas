@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { WorkflowProvider } from "./contexts/WorkflowContext";
-import Home from "./components/home";
-import Workflow from "./components/workflow";
+import Home from "./pages/home";
+import Workflow from "./pages/workflow";
 
 const App = () => {
   return (

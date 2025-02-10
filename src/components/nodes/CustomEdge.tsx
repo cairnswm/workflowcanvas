@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { EdgeProps, getBezierPath } from 'reactflow';
-import { useWorkflow } from '../contexts/WorkflowContext';
+import { useWorkflow } from '../../contexts/WorkflowContext';
 import { Edit2, Trash2 } from 'lucide-react';
 
 function CustomEdge({
