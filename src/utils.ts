@@ -6,7 +6,6 @@ export const exportWorkflow = (nodes: Node[], edges: Edge[], filename: string) =
     edges,
     filename,
   };
-  console.log("nodes", nodes);
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

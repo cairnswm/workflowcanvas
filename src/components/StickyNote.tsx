@@ -21,8 +21,6 @@ const StickyNote = ({ id, data }: { id: string; data: StickyNoteData }) => {
   const { openChat, handleDeleteClick, updateNodeLabel, dispatch } = useNodeCommon(id, data);
   const [showSettings, setShowSettings] = useState(false);
 
-  console.log("Sticky Note", data)
-
   const handleColorChange = (color: string) => {
     dispatch({
       type: "UPDATE_NODE_DATA",

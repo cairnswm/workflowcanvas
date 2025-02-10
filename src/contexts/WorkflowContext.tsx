@@ -47,7 +47,6 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
         ),
       };
     case 'UPDATE_NODE_DATA':
-      console.log("action.payload UPDATE_NODE_DATA", action.payload);
       return {
         ...state,
         nodes: state.nodes.map((node) =>
