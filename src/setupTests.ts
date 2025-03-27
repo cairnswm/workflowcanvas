@@ -1,8 +1,7 @@
 import '@testing-library/jest-dom'
 
-// Mock Vite's import.meta.env for Jest
-// @ts-expect-error - Mocking import.meta for tests
-global.import = { meta: { env: process.env } };
+// Note: import.meta.env is now mocked in jest.setup.js
+// This ensures we have a consistent mock across all tests
 
 class MockTextEncoder implements TextEncoder {
   encoding = 'utf-8'
@@ -28,4 +27,3 @@ class MockTextDecoder implements TextDecoder {
 
 globalThis.TextEncoder = MockTextEncoder as unknown as typeof TextEncoder
 globalThis.TextDecoder = MockTextDecoder as unknown as typeof TextDecoder
-
