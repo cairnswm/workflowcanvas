@@ -7,10 +7,7 @@ import { accessElf } from "./utils/accessElf";
 
 const App = () => {
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_ACCESSELF_API_KEY;
-    if (apiKey) {
-      accessElf.setApiKey(apiKey);
-    }
+
   }, []);
 
   accessElf.track();

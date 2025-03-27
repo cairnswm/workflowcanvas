@@ -9,6 +9,7 @@ export const setApiKey = (key) => {
 const accessElfDebounceMap = new Map();
 
 const sendAccessElfTracking = (page, id, message) => {
+  if (!accessElfApikey) { return; }
   const key = (page??"") + "-" + (id??"") + "-" + (message??"");
   const payload = {
     page,

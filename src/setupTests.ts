@@ -1,5 +1,9 @@
 import '@testing-library/jest-dom'
 
+// Mock Vite's import.meta.env for Jest
+// @ts-expect-error - Mocking import.meta for tests
+global.import = { meta: { env: process.env } };
+
 class MockTextEncoder implements TextEncoder {
   encoding = 'utf-8'
   encode(input: string): Uint8Array {
@@ -24,3 +28,4 @@ class MockTextDecoder implements TextDecoder {
 
 globalThis.TextEncoder = MockTextEncoder as unknown as typeof TextEncoder
 globalThis.TextDecoder = MockTextDecoder as unknown as typeof TextDecoder
+
