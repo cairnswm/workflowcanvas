@@ -20,6 +20,8 @@ jobs:
         
       - name: Build Site
         run: npm run build
+        env:
+          VITE_ACCESSELF_API_KEY: ${{ vars.ACCESSELF_API_KEY }}
 
       - name: Deploy Site
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
