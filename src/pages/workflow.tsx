@@ -24,6 +24,7 @@ import { toPng } from "html-to-image";
 import { exportWorkflow } from "../utils";
 import WorkflowHeader from "../components/header/workflowheader";
 import WorkflowToolbar from "../components/header/workflowtoolbar";
+import { accessElf } from "../utils/accessElf";
 
 const nodeTypes: NodeTypes = {
   workflowNode: WorkflowNode,
@@ -48,6 +49,8 @@ const Workflow: React.FC = () => {
   const { nodes, edges, filename } = state;
   const { screenToFlowPosition, getNodes } = useReactFlow();
   useViewport();
+
+  accessElf.track("workflow");
 
   const addNewNode = useCallback((
     type: "action" | "state" | "decision" | "block" | "header" | "image" | "chat" | "sticky"

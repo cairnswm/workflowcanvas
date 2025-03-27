@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { accessElf } from '../utils/accessElf';
 
 const Home = () => {
   const navigate = useNavigate();
+  accessElf.track("home")
 
   const features = [
     {

@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { WorkflowProvider } from "./contexts/WorkflowContext";
 import Home from "./pages/home";
 import Workflow from "./pages/workflow";
+import { accessElf } from "./utils/accessElf";
 
 const App = () => {
+  useEffect(() => {
+    const apiKey = import.meta.env.VITE_ACCESSELF_API_KEY;
+    if (apiKey) {
+      accessElf.setApiKey(apiKey);
+    }
+  }, []);
+
+  accessElf.track();
+
   return (
     <div data-testid="app">
       <WorkflowProvider>
