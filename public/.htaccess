@@ -1,0 +1,54 @@
+# Enable rewriting
+RewriteEngine On
+
+# Set the base directory for the rewrite rules
+RewriteBase /workflowcanvas/
+
+# If the request is for an actual file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Handle requests to subfolders by redirecting to index.html
+RewriteRule ^([^/]+)/(.*)$ index.html [QSA,L]
+
+# Handle all other requests by redirecting to index.html
+RewriteRule ^ index.html [QSA,L]
+
+# Set security headers
+<IfModule mod_headers.c>
+  # Prevent MIME type sniffing
+  Header set X-Content-Type-Options "nosniff"
+  
+  # Enable XSS protection in browsers
+  Header set X-XSS-Protection "1; mode=block"
+  
+  # Prevent clickjacking
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Enable gzip compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Set caching headers
+<IfModule mod_expires.c>
+  ExpiresActive On
+  
+  # Cache HTML for 1 hour
+  ExpiresByType text/html "access plus 1 hour"
+  
+  # Cache CSS, JavaScript, and media files for 1 week
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/jpeg "access plus 1 week"
+  ExpiresByType image/png "access plus 1 week"
+  ExpiresByType image/svg+xml "access plus 1 week"
+  
+  # Cache fonts for 1 month
+  ExpiresByType application/font-woff "access plus 1 month"
+  ExpiresByType application/font-woff2 "access plus 1 month"
+  ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+  ExpiresByType application/x-font-ttf "access plus 1 month"
+</IfModule>
